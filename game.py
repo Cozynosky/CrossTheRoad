@@ -80,11 +80,11 @@ class Game:
 
     #prepare players lifes to show on screen
     def prepareHearts(self):
-        self.hearts = pygame.Surface((60,20),pygame.SRCALPHA)
+        self.hearts = pygame.Surface((90,30),pygame.SRCALPHA)
         for i in range(self.P1.lifes):
-            self.hearts.blit(settings.heartImage,(i*20,0))
+            self.hearts.blit(settings.heartImage,(i*30,0))
         self.hearts_rect = self.hearts.get_rect()
-        self.hearts_rect = (20,20)
+        self.hearts_rect = (30,15)
 
     #method to update elements
     def update(self):
