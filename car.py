@@ -37,6 +37,12 @@ class Car(pygame.sprite.Sprite):
     #update car pos
     def update(self):
         if self.facing == "Right":
-            self.rect.x += self.speed
+            if self.rect.left >= settings._WIDTH:
+                self.resetCar()
+            else:
+                self.rect.x += self.speed
         else:
-            self.rect.x -= self.speed
+            if self.rect.right <= 0:
+                self.resetCar()
+            else:
+                self.rect.x -= self.speed

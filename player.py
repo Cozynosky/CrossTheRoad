@@ -44,7 +44,7 @@ class Player:
     #update player position
     def update(self):
         #update position only when player wont hit bottom
-        if self.rect.bottom+self.movement <= settings._HEIGHT - 20:
+        if self.rect.bottom+self.movement <= settings._HEIGHT:
             self.rect.y += self.movement
     
     #method to blit player on screen
