@@ -9,7 +9,8 @@ import settings
 class Car(pygame.sprite.Sprite):
 
     #init method
-    def __init__(self,yPos):
+    def __init__(self,yPos,level):
+        self.level = level
         pygame.sprite.Sprite.__init__(self)
         self.newCar(yPos)
 
@@ -24,7 +25,7 @@ class Car(pygame.sprite.Sprite):
         self.facing = random.choice(["Right","Left"])
         #reset car position when make new one
         self.resetCar()
-    
+
     #reset car, when hit wall for example
     def resetCar(self):
         if self.facing == "Left":
@@ -32,8 +33,14 @@ class Car(pygame.sprite.Sprite):
         else:
             self.rect.right = 0; 
         #radomize car speed
-        self.speed = random.choice([3,4,5,6])
+        self.prepareSpeed()
     
+    #prepare car speed basing on level
+    def prepareSpeed(self):
+        if self.level < 6:
+            self.speed = random.randint(self.level,self.level+3)
+        else:
+            self.speed = random.randint(6,9)
     #update car pos
     def update(self):
         if self.facing == "Right":

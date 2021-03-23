@@ -15,7 +15,9 @@ class Game:
         pygame.init()
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((settings._WIDTH, settings._HEIGHT))
-        self.newGame()
+        self.level = 1
+        self.P1 = player.Player(self.screen)
+        self.prepareLevel()
     
     #main loop of the game
     def play(self):
@@ -109,21 +111,20 @@ class Game:
             self.level += 1
             self.prepareLevelText()
             self.P1.resetPos()
+            self.prepareLevel()
 
-    #make new game
-    def newGame(self):
-        self.level = 1
-        self.P1 = player.Player(self.screen)
+    #prepare new level
+    def prepareLevel(self):
         self.generateCars()
         self.prepareLevelText()
         self.prepareHearts()
-    
+
     #generate cars
     def generateCars(self):
         self.Cars = pygame.sprite.Group()
-        self.Cars.add(car.Car(120))
-        self.Cars.add(car.Car(200))
-        self.Cars.add(car.Car(340))
-        self.Cars.add(car.Car(420))
-        self.Cars.add(car.Car(560))
-        self.Cars.add(car.Car(640))
+        self.Cars.add(car.Car(120,self.level))
+        self.Cars.add(car.Car(200,self.level))
+        self.Cars.add(car.Car(340,self.level))
+        self.Cars.add(car.Car(420,self.level))
+        self.Cars.add(car.Car(560,self.level))
+        self.Cars.add(car.Car(640,self.level))
