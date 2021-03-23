@@ -4,6 +4,7 @@ a file with game class
 """
 import settings,player
 import pygame
+from pygame.locals import *
 import sys
 
 class Game:
@@ -18,27 +19,49 @@ class Game:
     #main loop of the game
     def play(self):
         while self.gameON:
+            #update elements
+            self.update()
+
             #draw elements
             self.drawElements()
+
             #show elements
             pygame.display.update()
 
             self.manageInput()
             
+            #static 60 fps framerate
             self.clock.tick(60)
 
     #method to manage player input
     def manageInput(self):
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+
+            if event.type == KEYDOWN:
+                if event.key == K_w:
+                    self.P1.goUp()
+                elif  event.key == K_s:
+                    self.P1.goDown()
+
+            elif  event.type == KEYUP:
+                if event.key == K_w:
+                    self.P1.stay()
+                elif  event.key == K_s:
+                    self.P1.stay()
+
+            elif event.type == QUIT:
                 pygame.quit()
                 sys.exit()
-    
+            
+    #one methon with all drawnings
     def drawElements(self):
-        self.screen.fill((255,255,255))
+        self.screen.blit(settings.bgImage,(0,0))
         self.P1.blit()
+    
+    #method to update elements
+    def update(self):
+        self.P1.update()
         
-
     #make new game
     def newGame(self):
         self.P1 = player.Player(self.screen)
