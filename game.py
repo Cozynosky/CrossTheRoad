@@ -37,7 +37,6 @@ class Game:
     #method to manage player input
     def manageInput(self):
         for event in pygame.event.get():
-
             if event.type == KEYDOWN:
                 if event.key == K_w:
                     self.P1.goUp()
@@ -46,9 +45,9 @@ class Game:
 
             elif  event.type == KEYUP:
                 if event.key == K_w:
-                    self.P1.stay()
+                    self.P1.goUp()
                 elif  event.key == K_s:
-                    self.P1.stay()
+                    self.P1.goDown()
 
             elif event.type == QUIT:
                 pygame.quit()

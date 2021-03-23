@@ -23,29 +23,25 @@ class Player:
         self.rect = self.image.get_rect()
         self.rect.centerx = settings._WIDTH//2
         self.rect.bottom = settings._HEIGHT - 20
-        #player stays when movement is 0, go up when <0 or go down when >0
-        self.movement = 0
+        #player can go forward, backward, left or right
+        self.forward = False
+        self.backward = False
 
     #reacton on player up input
     def goUp(self):
-        if self.movement == 0:
-            self.movement = -settings._PlayerSPEED
+        self.forward = not self.forward
 
     #reacton on player down input
     def goDown(self):
-        if self.movement == 0:
-            self.movement = settings._PlayerSPEED
-
-    #reaction when player wants to stop moving        
-    def stay(self):
-        if self.movement != 0:
-            self.movement = 0
+        self.backward = not self.backward
 
     #update player position
     def update(self):
         #update position only when player wont hit bottom
-        if self.rect.bottom+self.movement <= settings._HEIGHT:
-            self.rect.y += self.movement
+        if self.forward:
+            self.rect.y -= settings._PlayerSPEED
+        if self.backward:
+            self.rect.y += settings._PlayerSPEED
     
     #method to blit player on screen
     def blit(self):
