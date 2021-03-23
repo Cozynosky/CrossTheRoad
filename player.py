@@ -52,9 +52,9 @@ class Player:
             self.rect.y -= settings._PlayerSPEED
         if self.backward and self.rect.bottom < settings._HEIGHT:
             self.rect.y += settings._PlayerSPEED
-        if self.right:
+        if self.right and self.rect.right < settings._WIDTH:
             self.rect.x += settings._PlayerSPEED
-        if self.left:
+        if self.left and self.rect.left > 0:
             self.rect.x -= settings._PlayerSPEED
     
     #method to blit player on screen
