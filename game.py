@@ -12,6 +12,7 @@ class Game:
     #init method
     def __init__(self):
         self.gameON = True
+        pygame.init()
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((settings._WIDTH, settings._HEIGHT))
         self.newGame()
@@ -66,7 +67,16 @@ class Game:
         self.screen.blit(settings.bgImage,(0,0))
         self.P1.blit()
         self.Cars.draw(self.screen)
+        self.screen.blit(self.levelText,self.level_rect)
     
+    #prepare level text
+    def prepareLevelText(self):
+        #prepare font for level showing
+        levelFont = pygame.font.SysFont("Tw Cen MT Condensed Extra Bold,", 51)
+        self.levelText = levelFont.render("Level: "+ str(self.P1.level), True, (0,0,0))
+        self.level_rect = self.levelText.get_rect()
+        self.level_rect.center = (settings._WIDTH//2,30)
+
     #method to update elements
     def update(self):
         self.checkCrash()
@@ -76,19 +86,24 @@ class Game:
     #check if player has crashed with a car
     def checkCrash(self):
         if pygame.sprite.spritecollideany(self.P1,self.Cars):
-            self.gameON = False
+            if self.P1.lifes == 1:
+                self.gameON = False
+            else:
+                self.P1.lifes -= 1
+                self.P1.resetPos()
 
     #make new game
     def newGame(self):
         self.P1 = player.Player(self.screen)
         self.generateCars()
+        self.prepareLevelText()
     
     #generate cars
     def generateCars(self):
         self.Cars = pygame.sprite.Group()
-        self.Cars.add(car.Car(60))
-        self.Cars.add(car.Car(140))
-        self.Cars.add(car.Car(280))
-        self.Cars.add(car.Car(360))
-        self.Cars.add(car.Car(500))
-        self.Cars.add(car.Car(580))
+        self.Cars.add(car.Car(120))
+        self.Cars.add(car.Car(200))
+        self.Cars.add(car.Car(340))
+        self.Cars.add(car.Car(420))
+        self.Cars.add(car.Car(560))
+        self.Cars.add(car.Car(640))

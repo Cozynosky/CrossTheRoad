@@ -10,16 +10,18 @@ class Player(pygame.sprite.Sprite):
     #init method
     def __init__(self,screen):
         pygame.sprite.Sprite.__init__(self)
-        self.newPlayer()
         self.screen = screen
-    
-    #method to create new player when game starts
-    def newPlayer(self):
-        #player starts with 0 points
-        self.score = 0
+        #player starts on level 1 and 3 lifes
+        self.level = 1
+        self.lifes = 3
         #temp player without graphics
         self.image = pygame.Surface((40,40))
         self.image.fill((255,0,0))
+        #set player position
+        self.resetPos()
+    
+    #method to create new player when game starts
+    def resetPos(self):
         #make rect from image and set corret position
         self.rect = self.image.get_rect()
         self.rect.centerx = settings._WIDTH//2
@@ -49,7 +51,7 @@ class Player(pygame.sprite.Sprite):
     #update player position
     def update(self):
         #update position only when player wont hit bottom
-        if self.forward:
+        if self.forward and self.rect.top > 60:
             self.rect.y -= settings._PlayerSPEED
         if self.backward and self.rect.bottom < settings._HEIGHT:
             self.rect.y += settings._PlayerSPEED
