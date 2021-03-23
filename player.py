@@ -11,8 +11,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self,screen):
         pygame.sprite.Sprite.__init__(self)
         self.screen = screen
-        #player starts on level 1 and 3 lifes
-        self.level = 1
+        #player starts with 3 lifes
         self.lifes = 3
         #temp player without graphics
         self.image = pygame.Surface((40,40))

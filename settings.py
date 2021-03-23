@@ -11,3 +11,4 @@ _HEIGHT = 780
 _PlayerSPEED = 2
 #load sprites
 bgImage = pygame.image.load("sprites/background.png")
+heartImage = pygame.image.load("sprites/heart.png")

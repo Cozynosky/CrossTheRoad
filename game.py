@@ -68,18 +68,28 @@ class Game:
         self.P1.blit()
         self.Cars.draw(self.screen)
         self.screen.blit(self.levelText,self.level_rect)
+        self.screen.blit(self.hearts, self.hearts_rect)
     
     #prepare level text
     def prepareLevelText(self):
         #prepare font for level showing
         levelFont = pygame.font.SysFont("Tw Cen MT Condensed Extra Bold,", 51)
-        self.levelText = levelFont.render("Level: "+ str(self.P1.level), True, (0,0,0))
+        self.levelText = levelFont.render("Level: "+ str(self.level), True, (0,0,0))
         self.level_rect = self.levelText.get_rect()
         self.level_rect.center = (settings._WIDTH//2,30)
+
+    #prepare players lifes to show on screen
+    def prepareHearts(self):
+        self.hearts = pygame.Surface((60,20),pygame.SRCALPHA)
+        for i in range(self.P1.lifes):
+            self.hearts.blit(settings.heartImage,(i*20,0))
+        self.hearts_rect = self.hearts.get_rect()
+        self.hearts_rect = (20,20)
 
     #method to update elements
     def update(self):
         self.checkCrash()
+        self.checkLevelComplete()
         self.P1.update()
         self.Cars.update()
         
@@ -91,12 +101,22 @@ class Game:
             else:
                 self.P1.lifes -= 1
                 self.P1.resetPos()
+                self.prepareHearts()
+
+    #check if level is done
+    def checkLevelComplete(self):
+        if self.P1.rect.bottom < 120:
+            self.level += 1
+            self.prepareLevelText()
+            self.P1.resetPos()
 
     #make new game
     def newGame(self):
+        self.level = 1
         self.P1 = player.Player(self.screen)
         self.generateCars()
         self.prepareLevelText()
+        self.prepareHearts()
     
     #generate cars
     def generateCars(self):
