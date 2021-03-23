@@ -40,14 +40,22 @@ class Game:
             if event.type == KEYDOWN:
                 if event.key == K_w:
                     self.P1.goUp()
-                elif  event.key == K_s:
+                if  event.key == K_s:
                     self.P1.goDown()
+                if event.key == K_a:
+                    self.P1.goLeft()
+                if event.key == K_d:
+                    self.P1.goRight()
 
             elif  event.type == KEYUP:
                 if event.key == K_w:
                     self.P1.goUp()
-                elif  event.key == K_s:
+                if  event.key == K_s:
                     self.P1.goDown()
+                if event.key == K_a:
+                    self.P1.goLeft()
+                if event.key == K_d:
+                    self.P1.goRight()
 
             elif event.type == QUIT:
                 pygame.quit()

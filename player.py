@@ -26,6 +26,8 @@ class Player:
         #player can go forward, backward, left or right
         self.forward = False
         self.backward = False
+        self.left = False
+        self.right = False
 
     #reacton on player up input
     def goUp(self):
@@ -34,14 +36,26 @@ class Player:
     #reacton on player down input
     def goDown(self):
         self.backward = not self.backward
+    
+    #reacton on player left input
+    def goLeft(self):
+        self.left = not self.left
+    
+    #reacton on player right input
+    def goRight(self):
+        self.right = not self.right
 
     #update player position
     def update(self):
         #update position only when player wont hit bottom
         if self.forward:
             self.rect.y -= settings._PlayerSPEED
-        if self.backward:
+        if self.backward and self.rect.bottom < settings._HEIGHT:
             self.rect.y += settings._PlayerSPEED
+        if self.right:
+            self.rect.x += settings._PlayerSPEED
+        if self.left:
+            self.rect.x -= settings._PlayerSPEED
     
     #method to blit player on screen
     def blit(self):
