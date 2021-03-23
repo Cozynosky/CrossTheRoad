@@ -2,7 +2,7 @@
 """
 a file with game class
 """
-import settings,player
+import settings,player,car
 import pygame
 from pygame.locals import *
 import sys
@@ -28,6 +28,7 @@ class Game:
             #show elements
             pygame.display.update()
 
+            #manage player input
             self.manageInput()
             
             #static 60 fps framerate
@@ -57,11 +58,24 @@ class Game:
     def drawElements(self):
         self.screen.blit(settings.bgImage,(0,0))
         self.P1.blit()
+        self.Cars.draw(self.screen)
     
     #method to update elements
     def update(self):
+        self.Cars.update()
         self.P1.update()
         
     #make new game
     def newGame(self):
         self.P1 = player.Player(self.screen)
+        self.generateCars()
+    
+    #generate cars
+    def generateCars(self):
+        self.Cars = pygame.sprite.Group()
+        self.Cars.add(car.Car(60))
+        self.Cars.add(car.Car(140))
+        self.Cars.add(car.Car(280))
+        self.Cars.add(car.Car(360))
+        self.Cars.add(car.Car(500))
+        self.Cars.add(car.Car(580))

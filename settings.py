@@ -6,7 +6,7 @@ import pygame
 
 #window size
 _WIDTH =  600
-_HEIGHT = 700
+_HEIGHT = 720
 #player stats
 _PlayerSPEED = 3
 #load sprites
