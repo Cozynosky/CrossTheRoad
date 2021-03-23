@@ -5,10 +5,11 @@ file with player class
 import pygame
 import settings
 
-class Player:
+class Player(pygame.sprite.Sprite):
 
     #init method
     def __init__(self,screen):
+        pygame.sprite.Sprite.__init__(self)
         self.newPlayer()
         self.screen = screen
     

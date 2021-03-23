@@ -69,9 +69,15 @@ class Game:
     
     #method to update elements
     def update(self):
-        self.Cars.update()
+        self.checkCrash()
         self.P1.update()
+        self.Cars.update()
         
+    #check if player has crashed with a car
+    def checkCrash(self):
+        if pygame.sprite.spritecollideany(self.P1,self.Cars):
+            self.gameON = False
+
     #make new game
     def newGame(self):
         self.P1 = player.Player(self.screen)
