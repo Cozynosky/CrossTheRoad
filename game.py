@@ -19,13 +19,19 @@ class Game:
     
     #main loop of the game
     def play(self):
-        while self.gameON:
-            #update elements
-            self.update()
+        while True: 
+            if self.gameON:
+                #update elements
+                self.update()
 
-            #draw elements
-            self.drawElements()
+                #draw elements
+                self.drawElements()
+            
 
+            #this is a gameover way
+            elif not self.gameON:
+                self.gameOver()
+            
             #show elements
             pygame.display.update()
 
@@ -40,33 +46,41 @@ class Game:
         self.level = 1
         self.P1 = player.Player(self.screen)
         self.prepareLevel()
+
     #method to manage player input
     def manageInput(self):
         for event in pygame.event.get():
-            if event.type == KEYDOWN:
-                if event.key == K_w:
-                    self.P1.forward = True
-                if  event.key == K_s:
-                    self.P1.backward = True
-                if event.key == K_a:
-                    self.P1.left = True
-                if event.key == K_d:
-                    self.P1.right = True
-
-            elif  event.type == KEYUP:
-                if event.key == K_w:
-                    self.P1.forward = False
-                if  event.key == K_s:
-                    self.P1.backward = False
-                if event.key == K_a:
-                    self.P1.left = False
-                if event.key == K_d:
-                    self.P1.right = False
-
-            elif event.type == QUIT:
+            if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
+
+            if self.gameON:
+                if event.type == KEYDOWN:
+                    if event.key == K_w:
+                        self.P1.forward = True
+                    if  event.key == K_s:
+                        self.P1.backward = True
+                    if event.key == K_a:
+                        self.P1.left = True
+                    if event.key == K_d:
+                        self.P1.right = True
+
+                elif  event.type == KEYUP:
+                    if event.key == K_w:
+                        self.P1.forward = False
+                    if  event.key == K_s:
+                        self.P1.backward = False
+                    if event.key == K_a:
+                        self.P1.left = False
+                    if event.key == K_d:
+                        self.P1.right = False
             
+            if not self.gameON:
+                if event.type == KEYUP:
+                    if event.key == K_RETURN:
+                        self.newGame()
+                        self.gameON = True
+        
     #one methon with all drawnings
     def drawElements(self):
         self.screen.blit(settings.bgImage,(0,0))
@@ -107,6 +121,9 @@ class Game:
                 self.P1.lifes -= 1
                 self.P1.resetPos()
                 self.prepareHearts()
+                #wait 100ms to better gameplay (needed only when game is still on)
+                pygame.time.delay(100)
+            
 
     #check if level is done
     def checkLevelComplete(self):
@@ -124,11 +141,18 @@ class Game:
 
     #prepare GameOver method
     def gameOver(self):
+        #big GAME OVER text on the middle of the window
         gameOverFont = pygame.font.SysFont("Tw Cen MT Condensed Extra Bold,", 100)
         gameOverText = gameOverFont.render("GAME OVER", True, (0,0,0))
         gameOver_rect = gameOverText.get_rect()
         gameOver_rect.center = (settings._WIDTH//2,settings._HEIGHT//2)
         self.screen.blit(gameOverText,gameOver_rect)
+        #smaller information how to continue game
+        playAgainFont = pygame.font.SysFont("Tw Cen MT Condensed Extra Bold,", 30)
+        playAgainText = playAgainFont.render("Press 'ENTER' to start a new game", True, (0,0,0))
+        playAgain_rect = playAgainText.get_rect()
+        playAgain_rect.center = (settings._WIDTH//2,settings._HEIGHT//2+50)
+        self.screen.blit(playAgainText,playAgain_rect)
 
     #generate cars
     def generateCars(self):
