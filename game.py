@@ -2,52 +2,52 @@
 """
 a file with game class
 """
-import settings,player,car
+import settings, player, car
 import pygame
 from pygame.locals import *
 import sys
 
+
 class Game:
-    
-    #init method
+
+    # init method
     def __init__(self):
         self.gameON = True
         pygame.init()
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((settings._WIDTH, settings._HEIGHT))
         self.newGame()
-    
-    #main loop of the game
+
+    # main loop of the game
     def play(self):
-        while True: 
+        while True:
             if self.gameON:
-                #update elements
+                # update elements
                 self.update()
 
-                #draw elements
+                # draw elements
                 self.drawElements()
-            
 
-            #this is a gameover way
+            # this is a gameover way
             elif not self.gameON:
                 self.gameOver()
-            
-            #show elements
+
+            # show elements
             pygame.display.update()
 
-            #manage player input
+            # manage player input
             self.manageInput()
-            
-            #static 60 fps framerate
+
+            # static 60 fps framerate
             self.clock.tick(60)
 
-    #create new game
+    # create new game
     def newGame(self):
         self.level = 1
         self.P1 = player.Player(self.screen)
         self.prepareLevel()
 
-    #method to manage player input
+    # method to manage player input
     def manageInput(self):
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -58,74 +58,73 @@ class Game:
                 if event.type == KEYDOWN:
                     if event.key == K_w:
                         self.P1.forward = True
-                    if  event.key == K_s:
+                    if event.key == K_s:
                         self.P1.backward = True
                     if event.key == K_a:
                         self.P1.left = True
                     if event.key == K_d:
                         self.P1.right = True
 
-                elif  event.type == KEYUP:
+                elif event.type == KEYUP:
                     if event.key == K_w:
                         self.P1.forward = False
-                    if  event.key == K_s:
+                    if event.key == K_s:
                         self.P1.backward = False
                     if event.key == K_a:
                         self.P1.left = False
                     if event.key == K_d:
                         self.P1.right = False
-            
+
             if not self.gameON:
                 if event.type == KEYUP:
                     if event.key == K_RETURN:
                         self.newGame()
                         self.gameON = True
-        
-    #one methon with all drawnings
+
+    # one methon with all drawnings
     def drawElements(self):
-        self.screen.blit(settings.bgImage,(0,0))
+        self.screen.blit(settings.bgImage, (0, 0))
         self.P1.blit()
         self.Cars.draw(self.screen)
-        self.screen.blit(self.levelText,self.level_rect)
+        self.screen.blit(self.levelText, self.level_rect)
         self.screen.blit(self.hearts, self.hearts_rect)
-    
-    #prepare level text
+
+    # prepare level text
     def prepareLevelText(self):
-        #prepare font for level showing
+        # prepare font for level showing
         levelFont = pygame.font.SysFont("Tw Cen MT Condensed Extra Bold,", 51)
-        self.levelText = levelFont.render("Level: "+ str(self.level), True, (0,0,0))
+        self.levelText = levelFont.render("Level: " + str(self.level), True, (0, 0, 0))
         self.level_rect = self.levelText.get_rect()
-        self.level_rect.center = (settings._WIDTH//2,30)
+        self.level_rect.center = (settings._WIDTH // 2, 30)
 
-    #prepare players lifes to show on screen
+    # prepare players lifes to show on screen
     def prepareHearts(self):
-        self.hearts = pygame.Surface((90,30),pygame.SRCALPHA)
+        self.hearts = pygame.Surface((90, 30), pygame.SRCALPHA)
         for i in range(self.P1.lifes):
-            self.hearts.blit(settings.heartImage,(i*30,0))
+            self.hearts.blit(settings.heartImage, (i * 30, 0))
         self.hearts_rect = self.hearts.get_rect()
-        self.hearts_rect = (30,15)
+        self.hearts_rect = (30, 15)
 
-    #method to update elements
+    # method to update elements
     def update(self):
         self.checkCrash()
         self.checkLevelComplete()
         self.P1.update()
         self.Cars.update()
-        
-    #check if player has crashed with a car
+
+    # check if player has crashed with a car
     def checkCrash(self):
-        if pygame.sprite.spritecollideany(self.P1,self.Cars):
+        if pygame.sprite.spritecollideany(self.P1, self.Cars):
             if self.P1.lifes == 1:
                 self.gameON = False
             else:
                 self.P1.lifes -= 1
                 self.P1.resetPos()
                 self.prepareHearts()
-                #wait 100ms to better gameplay (needed only when game is still on)
+                # wait 100ms to better gameplay (needed only when game is still on)
                 pygame.time.delay(100)
-            
 
-    #check if level is done
+    # check if level is done
     def checkLevelComplete(self):
         if self.P1.rect.bottom < 120:
             self.level += 1
@@ -133,33 +132,35 @@ class Game:
             self.P1.resetPos()
             self.prepareLevel()
 
-    #prepare new level
+    # prepare new level
     def prepareLevel(self):
         self.generateCars()
         self.prepareLevelText()
         self.prepareHearts()
 
-    #prepare GameOver method
+    # prepare GameOver method
     def gameOver(self):
-        #big GAME OVER text on the middle of the window
+        # big GAME OVER text on the middle of the window
         gameOverFont = pygame.font.SysFont("Tw Cen MT Condensed Extra Bold,", 100)
-        gameOverText = gameOverFont.render("GAME OVER", True, (0,0,0))
+        gameOverText = gameOverFont.render("GAME OVER", True, (0, 0, 0))
         gameOver_rect = gameOverText.get_rect()
-        gameOver_rect.center = (settings._WIDTH//2,settings._HEIGHT//2)
-        self.screen.blit(gameOverText,gameOver_rect)
-        #smaller information how to continue game
+        gameOver_rect.center = (settings._WIDTH // 2, settings._HEIGHT // 2)
+        self.screen.blit(gameOverText, gameOver_rect)
+        # smaller information how to continue game
         playAgainFont = pygame.font.SysFont("Tw Cen MT Condensed Extra Bold,", 30)
-        playAgainText = playAgainFont.render("Press 'ENTER' to start a new game", True, (0,0,0))
+        playAgainText = playAgainFont.render(
+            "Press 'ENTER' to start a new game", True, (0, 0, 0)
+        )
         playAgain_rect = playAgainText.get_rect()
-        playAgain_rect.center = (settings._WIDTH//2,settings._HEIGHT//2+50)
-        self.screen.blit(playAgainText,playAgain_rect)
+        playAgain_rect.center = (settings._WIDTH // 2, settings._HEIGHT // 2 + 50)
+        self.screen.blit(playAgainText, playAgain_rect)
 
-    #generate cars
+    # generate cars
     def generateCars(self):
         self.Cars = pygame.sprite.Group()
-        self.Cars.add(car.Car(120,self.level))
-        self.Cars.add(car.Car(200,self.level))
-        self.Cars.add(car.Car(340,self.level))
-        self.Cars.add(car.Car(420,self.level))
-        self.Cars.add(car.Car(560,self.level))
-        self.Cars.add(car.Car(640,self.level))
+        self.Cars.add(car.Car(120, self.level))
+        self.Cars.add(car.Car(200, self.level))
+        self.Cars.add(car.Car(340, self.level))
+        self.Cars.add(car.Car(420, self.level))
+        self.Cars.add(car.Car(560, self.level))
+        self.Cars.add(car.Car(640, self.level))
