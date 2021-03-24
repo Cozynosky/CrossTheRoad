@@ -15,9 +15,7 @@ class Game:
         pygame.init()
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((settings._WIDTH, settings._HEIGHT))
-        self.level = 1
-        self.P1 = player.Player(self.screen)
-        self.prepareLevel()
+        self.newGame()
     
     #main loop of the game
     def play(self):
@@ -37,6 +35,11 @@ class Game:
             #static 60 fps framerate
             self.clock.tick(60)
 
+    #create new game
+    def newGame(self):
+        self.level = 1
+        self.P1 = player.Player(self.screen)
+        self.prepareLevel()
     #method to manage player input
     def manageInput(self):
         for event in pygame.event.get():
@@ -118,6 +121,14 @@ class Game:
         self.generateCars()
         self.prepareLevelText()
         self.prepareHearts()
+
+    #prepare GameOver method
+    def gameOver(self):
+        gameOverFont = pygame.font.SysFont("Tw Cen MT Condensed Extra Bold,", 100)
+        gameOverText = gameOverFont.render("GAME OVER", True, (0,0,0))
+        gameOver_rect = gameOverText.get_rect()
+        gameOver_rect.center = (settings._WIDTH//2,settings._HEIGHT//2)
+        self.screen.blit(gameOverText,gameOver_rect)
 
     #generate cars
     def generateCars(self):

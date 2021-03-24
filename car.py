@@ -16,13 +16,12 @@ class Car(pygame.sprite.Sprite):
 
     #method to create new car
     def newCar(self,yPos):
-        #temp car without graphics
-        self.image = pygame.Surface((80,60))
-        self.image.fill((255,0,0))
-        self.rect = self.image.get_rect()
-        self.rect.y = yPos
         #car can go left or right
         self.facing = random.choice(["Right","Left"])
+        #load car image depends on facing
+        self.loadImage()
+        self.rect = self.image.get_rect()
+        self.rect.y = yPos
         #reset car position when make new one
         self.resetCar()
 
@@ -34,13 +33,22 @@ class Car(pygame.sprite.Sprite):
             self.rect.right = 0; 
         #radomize car speed
         self.prepareSpeed()
+        #load new random img
+        self.loadImage()
     
+    #load car image mathod
+    def loadImage(self):
+        self.image = random.choice(settings.carsImgs)
+        if self.facing == "Left":
+           self.image = pygame.transform.flip(self.image, True, False)
+
     #prepare car speed basing on level
     def prepareSpeed(self):
         if self.level < 6:
             self.speed = random.randint(self.level,self.level+3)
         else:
             self.speed = random.randint(6,9)
+    
     #update car pos
     def update(self):
         if self.facing == "Right":
