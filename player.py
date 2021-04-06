@@ -51,21 +51,28 @@ class Player(pygame.sprite.Sprite):
 
     #method to load image
     def loadImage(self):
+        #change image only if player dont push 
         if not ((self.forward and self.backward) or (self.left and self.right)):
             if self.forward:
                 self.image = settings.turtleImage
+                #if player wants to go daigonally -> rotate image
                 if self.left:
-                    self.image = pygame.transform.rotate(self.image,10)
+                    self.image = pygame.transform.rotate(self.image,15)
                 if self.right:
-                    self.image = pygame.transform.rotate(self.image,-10)    
+                    self.image = pygame.transform.rotate(self.image,-15)    
             elif self.backward:
                 self.image = pygame.transform.flip(settings.turtleImage,False,True)
+                #if player wants to go daigonally -> rotate image
                 if self.left:
-                    self.image = pygame.transform.rotate(self.image,-10)
+                    self.image = pygame.transform.rotate(self.image,-15)
                 if self.right:
-                    self.image = pygame.transform.rotate(self.image,10)
+                    self.image = pygame.transform.rotate(self.image,15)
             elif self.left:
                 self.image = pygame.transform.rotate(settings.turtleImage,90)
             elif self.right:
                 self.image = pygame.transform.rotate(settings.turtleImage,-90)
+            #rotating image changes the rect of image
+            oldCenter = self.rect.center
+            self.rect = self.image.get_rect()
+            self.rect.center = oldCenter
             
