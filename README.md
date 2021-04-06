@@ -14,7 +14,7 @@ To control snake you can use wasd on your keyboard.
 
 Screenshots
 ===========
-![Start](https://media.giphy.com/media/ebMDEH08qSdkMRr9UV/giphy.gif) ![GameOver](https://media.giphy.com/media/kvks477sRxzE2SaDM9/giphy.gif) ![Game](https://media.giphy.com/media/WRvO4c6eCvqN8J3K1D/giphy.gif)
+![Start](https://media.giphy.com/media/Hb1mjlqt0S9w3aowES/giphy.gif) ![GameOver](https://media.giphy.com/media/dnmqlbYLhdDN5diXsj/giphy.gif)
 
 Technologies
 ===========
