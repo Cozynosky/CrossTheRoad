@@ -17,4 +17,7 @@ carsImgs = [
     pygame.image.load("sprites/car2.png"),
     pygame.image.load("sprites/car3.png"),
 ]
-turtleImage = pygame.image.load("sprites/turtle1.png")
+turtleImages = [pygame.image.load("sprites/turtle1.png"),
+                pygame.image.load("sprites/turtle2.png"),
+                pygame.image.load("sprites/turtle1.png"),
+                pygame.image.load("sprites/turtle3.png")]

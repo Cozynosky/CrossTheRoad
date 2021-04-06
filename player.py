@@ -14,13 +14,17 @@ class Player(pygame.sprite.Sprite):
         self.screen = screen
         # player starts with 3 lifes
         self.lifes = 3
+        #we will track ticks for animations
+        self.tick = 0
         # set player position
         self.resetPos()
 
     # method to create new player when game starts
     def resetPos(self):
         #load image
-        self.image = settings.turtleImage
+        self.image = settings.turtleImages[0]
+        #reset players ticks
+        self.tick = 0
         # make rect from image and set corret position
         self.rect = self.image.get_rect()
         self.rect.centerx = settings._WIDTH // 2
@@ -42,6 +46,12 @@ class Player(pygame.sprite.Sprite):
             self.rect.x += settings._PlayerSPEED
         if self.left and self.rect.left > 0:
             self.rect.x -= settings._PlayerSPEED
+        if self.forward or self.backward or self.left or self.right:
+            #increase tick
+            if self.tick < 59:
+                self.tick += 1
+            else:
+                self.tick = 0
         #load image
         self.loadImage()
 
@@ -54,23 +64,26 @@ class Player(pygame.sprite.Sprite):
         #change image only if player dont push 
         if not ((self.forward and self.backward) or (self.left and self.right)):
             if self.forward:
-                self.image = settings.turtleImage
+                self.image = settings.turtleImages[self.tick//15]
                 #if player wants to go daigonally -> rotate image
                 if self.left:
                     self.image = pygame.transform.rotate(self.image,15)
                 if self.right:
                     self.image = pygame.transform.rotate(self.image,-15)    
             elif self.backward:
-                self.image = pygame.transform.flip(settings.turtleImage,False,True)
+                self.image = settings.turtleImages[self.tick//15]
+                self.image = pygame.transform.flip(self.image,False,True)
                 #if player wants to go daigonally -> rotate image
                 if self.left:
                     self.image = pygame.transform.rotate(self.image,-15)
                 if self.right:
                     self.image = pygame.transform.rotate(self.image,15)
             elif self.left:
-                self.image = pygame.transform.rotate(settings.turtleImage,90)
+                self.image = settings.turtleImages[self.tick//15]
+                self.image = pygame.transform.rotate(self.image,90)
             elif self.right:
-                self.image = pygame.transform.rotate(settings.turtleImage,-90)
+                self.image = settings.turtleImages[self.tick//15]
+                self.image = pygame.transform.rotate(self.image,-90)
             #rotating image changes the rect of image
             oldCenter = self.rect.center
             self.rect = self.image.get_rect()
