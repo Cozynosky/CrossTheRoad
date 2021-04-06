@@ -14,14 +14,12 @@ class Player(pygame.sprite.Sprite):
         self.screen = screen
         # player starts with 3 lifes
         self.lifes = 3
-        # temp player without graphics
-        self.image = pygame.Surface((40, 40))
-        self.image.fill((255, 0, 0))
         # set player position
         self.resetPos()
 
     # method to create new player when game starts
     def resetPos(self):
+        self.loadImage()
         # make rect from image and set corret position
         self.rect = self.image.get_rect()
         self.rect.centerx = settings._WIDTH // 2
@@ -47,3 +45,7 @@ class Player(pygame.sprite.Sprite):
     # method to blit player on screen
     def blit(self):
         self.screen.blit(self.image, self.rect)
+
+    #method to load image
+    def loadImage(self):
+        self.image = settings.turtleImage
