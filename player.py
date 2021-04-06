@@ -19,7 +19,8 @@ class Player(pygame.sprite.Sprite):
 
     # method to create new player when game starts
     def resetPos(self):
-        self.loadImage()
+        #load image
+        self.image = settings.turtleImage
         # make rect from image and set corret position
         self.rect = self.image.get_rect()
         self.rect.centerx = settings._WIDTH // 2
@@ -29,7 +30,7 @@ class Player(pygame.sprite.Sprite):
         self.backward = False
         self.left = False
         self.right = False
-
+        
     # update player position
     def update(self):
         # update position only when player wont hit bottom
@@ -41,6 +42,8 @@ class Player(pygame.sprite.Sprite):
             self.rect.x += settings._PlayerSPEED
         if self.left and self.rect.left > 0:
             self.rect.x -= settings._PlayerSPEED
+        #load image
+        self.loadImage()
 
     # method to blit player on screen
     def blit(self):
@@ -48,4 +51,21 @@ class Player(pygame.sprite.Sprite):
 
     #method to load image
     def loadImage(self):
-        self.image = settings.turtleImage
+        if not ((self.forward and self.backward) or (self.left and self.right)):
+            if self.forward:
+                self.image = settings.turtleImage
+                if self.left:
+                    self.image = pygame.transform.rotate(self.image,10)
+                if self.right:
+                    self.image = pygame.transform.rotate(self.image,-10)    
+            elif self.backward:
+                self.image = pygame.transform.flip(settings.turtleImage,False,True)
+                if self.left:
+                    self.image = pygame.transform.rotate(self.image,-10)
+                if self.right:
+                    self.image = pygame.transform.rotate(self.image,10)
+            elif self.left:
+                self.image = pygame.transform.rotate(settings.turtleImage,90)
+            elif self.right:
+                self.image = pygame.transform.rotate(settings.turtleImage,-90)
+            
