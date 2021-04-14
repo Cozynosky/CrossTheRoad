@@ -10,7 +10,7 @@ with faster cars. When car hits you, you lose one heart of three, and if you hit
 
 Controls
 -------------
-To control snake you can use wasd on your keyboard.
+To control your turtle you can use wasd on your keyboard.
 
 Screenshots
 ===========
